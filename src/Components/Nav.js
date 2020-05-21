@@ -1,29 +1,42 @@
 import React from 'react';
-const Nav = () => {
+import { Link } from 'react-router-dom';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+
+const Navigation = () => {
   return (
-    <div>
-      <nav>
-        <Link to='/'>
-          <h5>E-Library</h5>
-        </Link>
-        <ul>
-          <li>
+    <Navbar bg='dark' variant='dark' sticky='top'>
+      <Link to='/'>
+        <Navbar.Brand>E-Library</Navbar.Brand>
+      </Link>
+      <Nav className='ml-auto'>
+        <Nav.Item>
+          <Nav.Link>
             <Link to='/books'>Biblioteka</Link>
-          </li>
-          <li>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
             <Link to='/new'>Dodaj Nową</Link>
-          </li>
-          <li>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
             <Link to='/register'>Zarejestruj Się</Link>
-          </li>
-          <li>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
             <Link to='/login'>Zaloguj Się</Link>
-          </li>
-          <li>
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link>
             <Link to='/logout'>Wyloguj Się</Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+    </Navbar>
   );
 };
+export default Navigation;

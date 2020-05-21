@@ -1,5 +1,5 @@
 import React from 'react';
-const Book = (authorName, authorLastName, title, releaseYear) => {
+const Book = ({ authorName, authorLastName, title, releaseYear }) => {
   return (
     <div>
       <h4>Imie:{authorName}</h4>

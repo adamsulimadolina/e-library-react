@@ -39,7 +39,7 @@ const NewBook = () => {
           value={releaseYear}
           onChange={updateReleaseYear}
         ></input>
-        <button type='submit'></button>
+        <button type='submit'>Dodaj</button>
       </form>
     </div>
   );
