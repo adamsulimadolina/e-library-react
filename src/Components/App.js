@@ -16,6 +16,7 @@ import NewPassword from './AdminComponents/NewPassword';
 import DeleteUser from './AdminComponents/DeleteUser';
 import PrivateRoute from './PrivateRoute';
 import ProtectedRoute from './ProtectedRoute';
+import DeleteBook from './LibraryComponents/DeleteBook';
 import { UserProvider } from './UserComponents/UserContext';
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
               path='/panel/newPassword/:id'
               component={NewPassword}
             />
-            <PrivateRoute path='/editBook/:id' component={EditBook} />
+            <ProtectedRoute path='/editBook/:id' exact component={EditBook} />
+            <ProtectedRoute path='/editBook/delete/:id' component={EditBook} />
             <PrivateRoute path='/panel/deleteUser' component={DeleteUser} />
           </Switch>
         </div>

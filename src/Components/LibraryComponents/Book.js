@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-const Book = () => {
+const Book = ({ match }) => {
   useEffect(() => {
     // await axios.get();
   }, []);
