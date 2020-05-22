@@ -1,11 +1,15 @@
-import React from 'react';
-const Book = ({ authorName, authorLastName, title, releaseYear }) => {
+import React, { useEffect } from 'react';
+import axios from 'axios';
+const Book = () => {
+  useEffect(() => {
+    // await axios.get();
+  }, []);
+  const rentBook = async () => {
+    // await axios.post();
+  };
   return (
     <div>
-      <h4>Imie:{authorName}</h4>
-      <h4>Nazwisko:{authorLastName}</h4>
-      <h4>Tytuł:{title}</h4>
-      <h4>Data wydania:{releaseYear}</h4>
+      <h1>Ksionżka</h1>
     </div>
   );
 };

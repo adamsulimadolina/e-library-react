@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from './UserContext';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 const Login = () => {
+  const [loggedIn, setLoggedIn] = useContext(UserContext);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -16,26 +19,31 @@ const Login = () => {
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
-  const logIn = async (e) => {
+  const authenticate = async (e) => {
     e.preventDefault();
+    setLoggedIn(true);
   };
   return (
     <div>
-      <form onSubmit={logIn}>
-        <input value={password} onChange={updatePassword} type='email' />
-        <input
-          value={email}
-          onChange={updateEmail}
-          type={showPassword ? 'text' : 'password'}
-        />
-        <button
-          onClick={handleClickShowPassword}
-          onMouseDown={handleMouseDownPassword}
-        >
-          Pokaż Hasło
-        </button>
-        <button type='submit'>Zaloguj</button>
-      </form>
+      {loggedIn ? (
+        <Redirect to='/' />
+      ) : (
+        <form onSubmit={authenticate}>
+          <input value={password} onChange={updatePassword} type='email' />
+          <input
+            value={email}
+            onChange={updateEmail}
+            type={showPassword ? 'text' : 'password'}
+          />
+          <button
+            onClick={handleClickShowPassword}
+            onMouseDown={handleMouseDownPassword}
+          >
+            Pokaż Hasło
+          </button>
+          <button type='submit'>Zaloguj</button>
+        </form>
+      )}
     </div>
   );
 };

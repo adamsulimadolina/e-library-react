@@ -9,21 +9,39 @@ import Logout from './UserComponents/Logout';
 import Register from './UserComponents/Register';
 import NewBook from './LibraryComponents/NewBook';
 import Home from './LibraryComponents/Home';
+import Book from './LibraryComponents/Book';
+import User from './UserComponents/User';
+import AdminPanel from './AdminComponents/AdminPanel';
+import NewPassword from './AdminComponents/NewPassword';
+import DeleteUser from './AdminComponents/DeleteUser';
+import PrivateRoute from './PrivateRoute';
+import ProtectedRoute from './ProtectedRoute';
+import { UserProvider } from './UserComponents/UserContext';
 function App() {
   return (
-    <Router>
-      <div className='App'>
-        <Navigation />
-        <Switch>
-          <Route path='/' exact component={Home} />
-          <Route path='/books' component={Books} />
-          <Route path='/new' component={NewBook} />
-          <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
-          <Route path='/logout' component={Logout} />
-        </Switch>
-      </div>
-    </Router>
+    <UserProvider>
+      <Router>
+        <div className='App'>
+          <Navigation />
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <Route path='/books' exact component={Books} />
+            <Route path='/books/:id' component={Book} />
+            <Route path='/newBook' component={NewBook} />
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
+            <Route path='/logout' component={Logout} />
+            <PrivateRoute path='/panel' exact component={AdminPanel} />
+            <PrivateRoute
+              path='/panel/newPassword/:id'
+              component={NewPassword}
+            />
+            <PrivateRoute path='/editBook/:id' component={EditBook} />
+            <PrivateRoute path='/panel/deleteUser' component={DeleteUser} />
+          </Switch>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 

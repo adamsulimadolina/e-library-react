@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useContext } from 'react';
+import { UserContext } from './UserContext';
 import { Redirect } from 'react-router-dom';
 const Logout = () => {
-  const [navigate, setNavigate] = useState(false);
-  const logout = () => {
-    setNavigate(true);
-  };
-  return { navigate } ? (
-    <button onClick={logout}>Wyloguj</button>
-  ) : (
-    <Redirect to='/' push='true' />
-  );
+  const [loggedIn, setLoggedIn] = useContext(UserContext);
+  useEffect(() => {
+    setLoggedIn(false);
+  });
+  return <Redirect to='/' />;
 };
 export default Logout;
