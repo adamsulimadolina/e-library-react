@@ -5,7 +5,7 @@ function DeleteUser() {
   const [deleteState, setDeleteState] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const updateAdminPassword = (e) => {
-    setPassword(e.target.value);
+    setAdminPassword(e.target.value);
   };
   const deleteUser = async () => {
     // await axios.post();
@@ -24,3 +24,4 @@ function DeleteUser() {
     </div>
   );
 }
+export default DeleteUser;

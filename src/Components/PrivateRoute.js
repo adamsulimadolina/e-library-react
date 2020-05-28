@@ -7,10 +7,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) => {
-        if (!loggedIn) <Redirect to='/login' />;
-        if (userRole !== 'Admin') <Redirect to='/' />;
+        if (!loggedIn) {
+          return <Redirect to='/login' />;
+        }
+        if (userRole !== 'Admin') {
+          return <Redirect to='/' />;
+        }
         return <Component {...props} />;
       }}
     />
   );
 };
+export default PrivateRoute;

@@ -31,14 +31,17 @@ const Books = () => {
         Id: '3',
       },
     ]);
+
     //await axios.get();
   };
   return (
     <div>
       {books.map((bk) => (
-        <h1 key={bk.Id}>
-          <Link to={`/books/${bk.Id}`}> {bk.title} </Link>
-        </h1>
+        <div>
+          <h1 key={bk.Id}>
+            <Link to={`/books/${bk.Id}`}> {bk.title} </Link>
+          </h1>
+        </div>
       ))}
     </div>
   );

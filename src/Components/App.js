@@ -10,14 +10,15 @@ import Register from './UserComponents/Register';
 import NewBook from './LibraryComponents/NewBook';
 import Home from './LibraryComponents/Home';
 import Book from './LibraryComponents/Book';
-import User from './UserComponents/User';
+import User from './AdminComponents/User';
 import AdminPanel from './AdminComponents/AdminPanel';
 import NewPassword from './AdminComponents/NewPassword';
 import DeleteUser from './AdminComponents/DeleteUser';
 import PrivateRoute from './PrivateRoute';
 import ProtectedRoute from './ProtectedRoute';
-import DeleteBook from './LibraryComponents/DeleteBook';
 import { UserProvider } from './UserComponents/UserContext';
+import EditBook from './LibraryComponents/EditBook';
+import OwnedBooks from './LibraryComponents/OwnedBooks';
 function App() {
   return (
     <UserProvider>
@@ -28,17 +29,22 @@ function App() {
             <Route path='/' exact component={Home} />
             <Route path='/books' exact component={Books} />
             <Route path='/books/:id' component={Book} />
-            <Route path='/newBook' component={NewBook} />
+            <ProtectedRoute path='/newBook' component={NewBook} />
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
-            <Route path='/logout' component={Logout} />
+            <ProtectedRoute path='/logout' component={Logout} />
+            <ProtectedRoute path='/myCollection' exact component={OwnedBooks} />
             <PrivateRoute path='/panel' exact component={AdminPanel} />
             <PrivateRoute
               path='/panel/newPassword/:id'
               component={NewPassword}
             />
-            <ProtectedRoute path='/editBook/:id' exact component={EditBook} />
-            <ProtectedRoute path='/editBook/delete/:id' component={EditBook} />
+            <PrivateRoute path='/panel/user' component={User} />
+            <ProtectedRoute
+              path='/myCollection/editBook/:id'
+              exact
+              component={EditBook}
+            />
             <PrivateRoute path='/panel/deleteUser' component={DeleteUser} />
           </Switch>
         </div>

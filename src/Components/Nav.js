@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { UserContext } from './UserComponents/UserContext';
 const Navigation = () => {
-  const [loggedIn] = useContext(UserContext);
+  const [loggedIn, userRole] = useContext(UserContext);
   return (
     <Navbar bg='dark' variant='dark' sticky='top'>
       <Link to='/'>
@@ -17,8 +17,8 @@ const Navigation = () => {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={Link} to='/new'>
-            Dodaj Nową
+          <Nav.Link as={Link} to='/myBooks'>
+            Moja Kolekcja
           </Nav.Link>
         </Nav.Item>
         {loggedIn ? (
@@ -31,6 +31,13 @@ const Navigation = () => {
           <Nav.Item>
             <Nav.Link as={Link} to='/login'>
               Zaloguj Się
+            </Nav.Link>
+          </Nav.Item>
+        )}
+        {userRole && loggedIn && (
+          <Nav.Item>
+            <Nav.Link as={Link} to='/panel'>
+              Admin Panel
             </Nav.Link>
           </Nav.Item>
         )}
