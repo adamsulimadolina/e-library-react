@@ -5,7 +5,7 @@ export const UserContext = createContext();
 export const UserProvider = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [rentedBooks, setRentedBooks] = useState([]);
-  const [userRole, setUserRole] = useState('Admin');
+  const [userRole, setUserRole] = useState('');
   const authUser = async () => {
     let token = localStorage.getItem('token');
     /*await axios.post().catch((error) => {

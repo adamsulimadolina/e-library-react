@@ -8,7 +8,7 @@ function EditBook({ match }) {
   const [authorName, setAuthorName] = useState('');
   const [authorLastName, setAuthorLastName] = useState('');
   useEffect(() => {
-    // axios,get()
+    // axios.get()
   }, []);
   const saveBook = () => {
     //axios.post()
@@ -31,13 +31,19 @@ function EditBook({ match }) {
       {edited ? (
         <Redirect to='/myCollection' />
       ) : (
-        <form onSubmit={saveBook}>
-          <input onChange={updateTitle} value={title}></input>
-          <input onChange={updateAuthorName} value={authorName}></input>
-          <input onChange={updateAuthorLastName} value={authorLastName}></input>
-          <input onChange={updateReleaseYear} value={releaseYear}></input>
-          <button type='submit'>Zapisz</button>
-        </form>
+        <div>
+          <h1>{match.params.id} edytuj</h1>
+          <form onSubmit={saveBook}>
+            <input onChange={updateTitle} value={title}></input>
+            <input onChange={updateAuthorName} value={authorName}></input>
+            <input
+              onChange={updateAuthorLastName}
+              value={authorLastName}
+            ></input>
+            <input onChange={updateReleaseYear} value={releaseYear}></input>
+            <button type='submit'>Zapisz</button>
+          </form>
+        </div>
       )}
     </div>
   );

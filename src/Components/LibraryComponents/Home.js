@@ -1,8 +1,10 @@
 import React from 'react';
+import { ReactComponent as Logo } from '../Images/books.svg';
 const Home = () => {
   return (
-    <div>
-      <h1>E-Biblioteka</h1>
+    <div className='custom-start'>
+      <h1 className='headline'>E-Biblioteka</h1>
+      <Logo />
     </div>
   );
 };

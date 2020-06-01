@@ -12,11 +12,13 @@ const OwnedBooks = () => {
       {myBooks.map((bk) => (
         <div>
           <h1 key={bk.Id}>
-            <Link to={`/books/${bk.Id}`}> {bk.title} </Link>
+            Zobacz
+            <Link to={`/books/details/${bk.title}`}> {bk.title} </Link>w
+            bibliotece
           </h1>
-          <button onClick={deleteBook(bk.id)}></button>
+          <button onClick={deleteBook(bk.id)}>Usuń</button>
           <button>
-            <Link to={`/books/editBook/${bk.Id}`}></Link>
+            <Link to={`/myCollection/editBook/${bk.Id}`}>Edytuj</Link>
           </button>
         </div>
       ))}
