@@ -106,3 +106,14 @@ code {
 .card:hover {
   transform: scale(1.05);
 }
+
+.center_container {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.custom-search-label {
+  font-size: 30px;
+}
