@@ -123,3 +123,13 @@ code {
   width: auto;
   height: 18px;
 }
+.center_container {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.custom-search-label {
+  font-size: 30px;
+}
