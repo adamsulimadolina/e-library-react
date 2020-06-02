@@ -35,7 +35,7 @@ const Books = () => {
         authors: ['Leszek Miller'],
         title: 'Pan Tadeusz',
         releaseYear: '1111',
-        Id: '1',
+        Id: '69',
       },
       {
         authors: ['JKM Byku'],
@@ -69,7 +69,7 @@ const Books = () => {
     <Container className='custom-container '>
       <Row className='justify-content-center'>
         {books.map((bk) => (
-          <Col lg={3} sm={6} xs={8} md={4}>
+          <Col key={bk.Id} lg={3} sm={6} xs={8} md={4}>
             <Book
               title={bk.title}
               displayedAuthors={bk.displayedAuthors}
