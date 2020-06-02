@@ -5,9 +5,10 @@ import Button from 'react-bootstrap/Button';
 import { Redirect, Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
-import GoogleLogin from 'react-google-login';
 import { ReactComponent as Logo } from '../Images/login.svg';
 import FormControl from 'react-bootstrap/FormControl';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Login = () => {
   const [loggedIn, setLoggedIn, setUserRole] = useContext(UserContext);
   const [password, setPassword] = useState('');
@@ -29,9 +30,6 @@ const Login = () => {
     e.preventDefault();
     setLoggedIn(true);
     setUserRole('Admin');
-  };
-  const responseGoogle = (response) => {
-    console.log(response);
   };
   if (!loggedIn)
     return (
@@ -72,14 +70,9 @@ const Login = () => {
             </Form>
             <Col sm={12} className='justify-content-center text-center'>
               <h5 className='mt-3'>lub</h5>
-
-              <GoogleLogin
-                clientId='438315145104-qrkfsoqg5gdavq23m3sh7sq66gg178gh.apps.googleusercontent.com'
-                buttonText='Login'
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'}
-              />
+              <Button variant='danger' className='mt-3'>
+                Zaloguj się za pomocą Google
+              </Button>
             </Col>
           </Col>
         </div>

@@ -1,2 +1,0 @@
-ClientID = 438315145104-qrkfsoqg5gdavq23m3sh7sq66gg178gh.apps.googleusercontent.com
-ClientKey = 9YFQe5uJZDbp761XICfM0bmB
