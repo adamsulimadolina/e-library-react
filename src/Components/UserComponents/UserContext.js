@@ -4,6 +4,7 @@ export const UserContext = createContext();
 
 export const UserProvider = (props) => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [googleUser, setGoogleUser] = useState(false);
   const [rentedBooks, setRentedBooks] = useState([]);
   const [userRole, setUserRole] = useState('');
   const authUser = async () => {
@@ -17,7 +18,15 @@ export const UserProvider = (props) => {
   };
   return (
     <UserContext.Provider
-      value={[loggedIn, setLoggedIn, authUser, userRole, setUserRole]}
+      value={[
+        loggedIn,
+        setLoggedIn,
+        googleUser,
+        setGoogleUser,
+        authUser,
+        userRole,
+        setUserRole,
+      ]}
     >
       {props.children}
     </UserContext.Provider>

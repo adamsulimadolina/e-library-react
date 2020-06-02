@@ -171,6 +171,7 @@ const Books = () => {
             <Book
               title={bk.title}
               displayedAuthors={bk.displayedAuthors}
+              id={bk.Id}
             ></Book>
           </Col>
         ))}

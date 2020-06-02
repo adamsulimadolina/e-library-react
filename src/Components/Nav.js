@@ -4,15 +4,16 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { faHome, faUser } from '@fortawesome/free-solid-svg-icons';
 import { faBook } from '@fortawesome/free-solid-svg-icons';
-import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserContext } from './UserComponents/UserContext';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import Logout from './UserComponents/Logout';
 const Navigation = () => {
-  const [loggedIn, userRole] = useContext(UserContext);
+  const [loggedIn, userRole, googleUser] = useContext(UserContext);
   return (
     <Navbar collapseOnSelect expand='md' bg='dark' variant='dark' sticky='top'>
       <Navbar.Toggle aria-controls='responsive-navbar-nav'>
@@ -39,11 +40,7 @@ const Navigation = () => {
             </Nav.Link>
           </Nav.Item>
           {loggedIn ? (
-            <Nav.Item>
-              <Nav.Link as={Link} to='/logout'>
-                Wyloguj Się <FontAwesomeIcon icon={faSignOutAlt} />
-              </Nav.Link>
-            </Nav.Item>
+            <Logout />
           ) : (
             <Nav.Item>
               <Nav.Link as={Link} to='/login'>

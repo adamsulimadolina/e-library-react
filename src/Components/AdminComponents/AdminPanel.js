@@ -19,15 +19,15 @@ function AdminPanel() {
   }, []);
   return (
     <div className='custom-container'>
+      <div className='justify-content-center d-flex my-5'>
+        <Button as={Link} to='/panel/newUser'>
+          Stwórz Użytkownika
+        </Button>
+      </div>
       <div className='custom-grid'>
         {users.map((user) => (
           <User id={user.id} userName={user.userName} key={user.id} />
         ))}
-      </div>
-      <div className='justify-content-center d-flex mt-5'>
-        <Button as={Link} to='/panel/newUser'>
-          Stwórz Użytkownika
-        </Button>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ function User({ id, userName }) {
         </Card.Title>
         <Card.Subtitle>{id}</Card.Subtitle>
         <Card.Title className='my-3'>{userName}</Card.Title>
-        <Button as={Link} to={`/panel/deleteUser/${id}`}>
+        <Button as={Link} to={`/panel/deleteUser/${userName}`}>
           Usuń
         </Button>
       </Card.Body>

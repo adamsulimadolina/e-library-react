@@ -20,6 +20,7 @@ import BookDetails from './LibraryComponents/BookDetails';
 import OwnedBooks from './LibraryComponents/OwnedBooks';
 import { ThemeProvider } from '@material-ui/styles';
 import defaultTheme from './theme';
+import NotFound from './NotFound';
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -50,6 +51,7 @@ function App() {
                 path='/panel/deleteUser/:id'
                 component={DeleteUser}
               />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </Router>

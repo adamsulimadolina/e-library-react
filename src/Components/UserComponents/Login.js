@@ -8,13 +8,23 @@ import Col from 'react-bootstrap/Col';
 import GoogleLogin from 'react-google-login';
 import { ReactComponent as Logo } from '../Images/login.svg';
 import FormControl from 'react-bootstrap/FormControl';
+import { CommunicationStayCurrentLandscape } from 'material-ui/svg-icons';
 const Login = () => {
-  const [loggedIn, setLoggedIn, setUserRole] = useContext(UserContext);
+  const [
+    loggedIn,
+    setLoggedIn,
+    googleUser,
+    setGoogleUser,
+    authUser,
+    userRole,
+    setUserRole,
+  ] = useContext(UserContext);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState('');
   const updateUserName = (e) => {
     setUserName(e.target.value);
+    console.log();
   };
   const updatePassword = (e) => {
     setPassword(e.target.value);
@@ -25,13 +35,22 @@ const Login = () => {
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
-  const authenticate = async (e) => {
-    e.preventDefault();
-    setLoggedIn(true);
-    setUserRole('Admin');
+  const authenticate = async () => {
+    await axios
+      .post('https://elibrary-1591126575416.azurewebsites.net/auth/login', {
+        username: userName,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+        setLoggedIn(true);
+      })
+      .catch((err) => console.log(err));
   };
   const responseGoogle = (response) => {
     console.log(response);
+    setLoggedIn(true);
+    setGoogleUser(true);
   };
   if (!loggedIn)
     return (
@@ -59,7 +78,6 @@ const Login = () => {
                   type={showPassword ? 'text' : 'password'}
                   placeholder='Hasło'
                 />
-
                 <Form.Check
                   onClick={handleClickShowPassword}
                   onMouseDown={handleMouseDownPassword}
@@ -75,7 +93,6 @@ const Login = () => {
 
               <GoogleLogin
                 clientId='438315145104-qrkfsoqg5gdavq23m3sh7sq66gg178gh.apps.googleusercontent.com'
-                buttonText='Login'
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'}
