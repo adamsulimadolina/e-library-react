@@ -37,22 +37,22 @@ const Login = () => {
   };
   const authenticate = async (e) => {
     e.preventDefault();
-    await axios({
-      //url: "https://elib-hybrid.azurewebsites.net/authentication/login/",
-      url: "http://localhost:8080/authentication/login/",
-      method: "POST",
-      withCredentials: true,
-      data: {
-        username: userName,
-        password: password
-      },
-    }).then(res => {
-      console.log(document.cookie)
-      console.log(res);
-      setLoggedIn(true);
-    })
-      .catch((err) => console.log(err));
-
+    // await axios({
+    //   //url: "https://elib-hybrid.azurewebsites.net/authentication/login/",
+    //   url: "http://localhost:8080/authentication/login/",
+    //   method: "POST",
+    //   withCredentials: true,
+    //   data: {
+    //     username: userName,
+    //     password: password
+    //   },
+    // }).then(res => {
+    //   console.log(document.cookie)
+    //   console.log(res);
+    //   setLoggedIn(true);
+    // })
+    //   .catch((err) => console.log(err));
+    setLoggedIn(true);
   };
 
   const responseGoogle = (response) => {
