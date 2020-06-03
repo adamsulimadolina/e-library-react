@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-const Book = ({ title, displayedAuthors, id }) => {
+const OwnedBook = ({ title, authors, id, releaseDate }) => {
   const [book, setBook] = useState();
   useEffect(() => {
     // await axios.get();
@@ -18,13 +18,11 @@ const Book = ({ title, displayedAuthors, id }) => {
       <Card.Body className='text-center'>
         <FontAwesomeIcon icon={faBookOpen} className='fa-2x mb-3' />
         <Card.Title>{title}</Card.Title>
-        <Card.Subtitle className='mb-1'>{displayedAuthors}</Card.Subtitle>
-        <Button as={Link} to={`/books/details/${id}`}>
-          {' '}
-          Zobacz
-        </Button>
+        <Card.Subtitle className='mb-1'>{authors}</Card.Subtitle>
+        <Card.Subtitle className='mb-1 '>{releaseDate}</Card.Subtitle>
+        <Button onClick={() => returnBook(id)}>Zwróć</Button>
       </Card.Body>
     </Card>
   );
 };
-export default Book;
+export default OwnedBook;

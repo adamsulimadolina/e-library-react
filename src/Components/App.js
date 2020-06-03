@@ -30,9 +30,12 @@ function App() {
             <Navigation />
             <Switch>
               <Route path='/' exact component={Home} />
-              <Route path='/books' exact component={Books} />
-              <Route path='/books/details/:id' component={BookDetails} />
-              <ProtectedRoute path='/panel/newBook' component={NewBook} />
+              <ProtectedRoute path='/books' exact component={Books} />
+              <ProtectedRoute
+                path='/books/details/:id'
+                component={BookDetails}
+              />
+              <PrivateRoute path='/panel/newBook' component={NewBook} />
               <Route path='/login' component={Login} />
               <ProtectedRoute path='/logout' component={Logout} />
               <ProtectedRoute
@@ -41,14 +44,14 @@ function App() {
                 component={OwnedBooks}
               />
               <PrivateRoute path='/panel' exact component={AdminPanel} />
-              <ProtectedRoute path='/panel/newUser' component={NewUser} />
+              <PrivateRoute path='/panel/newUser' component={NewUser} />
 
               <ProtectedRoute
                 path='/myCollection/editBook/:id'
                 exact
                 component={EditBook}
               />
-              <ProtectedRoute
+              <PrivateRoute
                 path='/panel/deleteUser/:id'
                 component={DeleteUser}
               />

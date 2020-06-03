@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Book from './Book';
+import OwnedBook from './OwnedBook';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -13,13 +13,24 @@ const OwnedBooks = () => {
   const [myBooks, setMyBooks] = useState([]);
   useEffect(() => {
     setMyBooks([
-      { title: 'tytul1', displayedAuthors: 'Mariusz Pudzianowski', Id: '123' },
+      {
+        title: 'tytul1',
+        authors: 'Mariusz Pudzianowski',
+        Id: '123',
+        releaseDate: '12.05',
+      },
       {
         title: 'tytul2',
-        displayedAuthors: 'Mariusz Pudzianowski',
+        authors: 'Mariusz Pudzianowski',
         Id: '13123',
+        releaseDate: '12.02',
       },
-      { title: 'tytul13', displayedAuthors: 'Mariusz JKM', Id: '133999' },
+      {
+        title: 'tytul13',
+        authors: 'Mariusz JKM',
+        Id: '133999',
+        releaseDate: '12.69',
+      },
     ]);
     //axios.get();
   }, []);
@@ -29,12 +40,12 @@ const OwnedBooks = () => {
       <Row className='justify-content-center'>
         {myBooks.map((bk) => (
           <Col key={bk.Id + bk.title} lg={3} sm={6} xs={8} md={4}>
-            <Book
+            <OwnedBook
               title={bk.title}
-              displayedAuthors={bk.displayedAuthors}
+              authors={bk.authors}
               id={bk.Id}
-              owned={true}
-            ></Book>
+              releaseDate={bk.releaseDate}
+            ></OwnedBook>
           </Col>
         ))}
       </Row>

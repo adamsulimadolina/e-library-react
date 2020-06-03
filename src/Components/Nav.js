@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,7 +13,18 @@ import { UserContext } from './UserComponents/UserContext';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Logout from './UserComponents/Logout';
 const Navigation = () => {
-  const [loggedIn, userRole, googleUser] = useContext(UserContext);
+  const [
+    loggedIn,
+    setLoggedIn,
+    googleUser,
+    setGoogleUser,
+    authUser,
+    userRole,
+    setUserRole,
+  ] = useContext(UserContext);
+  useEffect(() => {
+    console.log(userRole);
+  }, []);
   return (
     <Navbar collapseOnSelect expand='md' bg='dark' variant='dark' sticky='top'>
       <Navbar.Toggle aria-controls='responsive-navbar-nav'>
@@ -48,7 +59,7 @@ const Navigation = () => {
               </Nav.Link>
             </Nav.Item>
           )}
-          {userRole && loggedIn && (
+          {userRole === 'Admin' && loggedIn && (
             <Nav.Item>
               <Nav.Link as={Link} to='/panel'>
                 Admin Panel <FontAwesomeIcon icon={faUserShield} />
