@@ -19,9 +19,12 @@ function AdminPanel() {
   }, []);
   return (
     <Container className='custom-container'>
-      <div className='justify-content-center d-flex my-5'>
+      <div className='justify-content-around d-flex my-5'>
         <Button as={Link} to='/panel/newUser'>
           Stwórz Użytkownika
+        </Button>
+        <Button as={Link} to='/panel/newBook'>
+          Dodaj Książkę
         </Button>
       </div>
       <div className='custom-grid'>

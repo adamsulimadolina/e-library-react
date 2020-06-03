@@ -53,6 +53,7 @@ const Login = () => {
     // })
     //   .catch((err) => console.log(err));
     setLoggedIn(true);
+    setUserRole('User');
   };
 
   const responseGoogle = (response) => {

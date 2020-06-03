@@ -32,7 +32,7 @@ function App() {
               <Route path='/' exact component={Home} />
               <Route path='/books' exact component={Books} />
               <Route path='/books/details/:id' component={BookDetails} />
-              <PrivateRoute path='/newBook' component={NewBook} />
+              <ProtectedRoute path='/panel/newBook' component={NewBook} />
               <Route path='/login' component={Login} />
               <ProtectedRoute path='/logout' component={Logout} />
               <ProtectedRoute
@@ -40,8 +40,9 @@ function App() {
                 exact
                 component={OwnedBooks}
               />
-              <ProtectedRoute path='/panel' exact component={AdminPanel} />
+              <PrivateRoute path='/panel' exact component={AdminPanel} />
               <ProtectedRoute path='/panel/newUser' component={NewUser} />
+
               <ProtectedRoute
                 path='/myCollection/editBook/:id'
                 exact
