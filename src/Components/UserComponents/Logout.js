@@ -14,6 +14,7 @@ const Logout = () => {
     setUserRole,
   ] = useContext(UserContext);
   const logOut = () => {
+    setLoggedIn(false);
     return <Redirect to='/' />;
   };
   const responseGoogle = (response) => {
