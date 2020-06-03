@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-const Book = ({ title, displayedAuthors, id }) => {
+const Book = ({ title, displayedAuthors, id, owned }) => {
   const [book, setBook] = useState();
   useEffect(() => {
     // await axios.get();
   }, []);
-  const rentBook = async () => {
-    // await axios.post();
-  };
 
+  const returnBook = async (id) => {
+    console.log(id);
+  };
   return (
     <Card className='mb-5 card'>
       <Card.Body className='text-center'>
@@ -23,6 +23,7 @@ const Book = ({ title, displayedAuthors, id }) => {
           {' '}
           Zobacz
         </Button>
+        {owned && <Button onClick={() => returnBook(id)}>Zwróć</Button>}
       </Card.Body>
     </Card>
   );

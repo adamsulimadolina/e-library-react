@@ -18,7 +18,7 @@ function AdminPanel() {
     //axios.get();
   }, []);
   return (
-    <div className='custom-container'>
+    <Container className='custom-container'>
       <div className='justify-content-center d-flex my-5'>
         <Button as={Link} to='/panel/newUser'>
           Stwórz Użytkownika
@@ -29,7 +29,7 @@ function AdminPanel() {
           <User id={user.id} userName={user.userName} key={user.id} />
         ))}
       </div>
-    </div>
+    </Container>
   );
 }
 export default AdminPanel;
