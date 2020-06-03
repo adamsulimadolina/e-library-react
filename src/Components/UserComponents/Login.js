@@ -35,18 +35,26 @@ const Login = () => {
   const handleMouseDownPassword = (e) => {
     e.preventDefault();
   };
-  const authenticate = async () => {
-    await axios
-      .post('https://elibrary-1591126575416.azurewebsites.net/auth/login', {
+  const authenticate = async (e) => {
+    e.preventDefault();
+    await axios({
+      //url: "https://elib-hybrid.azurewebsites.net/authentication/login/",
+      url: "http://localhost:8080/authentication/login/",
+      method: "POST",
+      withCredentials: true,
+      data: {
         username: userName,
-        password: password,
-      })
-      .then((res) => {
-        console.log(res);
-        setLoggedIn(true);
-      })
+        password: password
+      },
+    }).then(res => {
+      console.log(document.cookie)
+      console.log(res);
+      setLoggedIn(true);
+    })
       .catch((err) => console.log(err));
+
   };
+
   const responseGoogle = (response) => {
     console.log(response);
     setLoggedIn(true);
