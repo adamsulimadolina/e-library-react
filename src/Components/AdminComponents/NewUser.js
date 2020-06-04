@@ -43,7 +43,7 @@ function NewUser() {
     };
     console.log(body);
     await axios({
-      url: 'https://elib-hybrid.azurewebsites.net/authentication/signup/',
+      url: 'https://elib-hybrid.azurewebsites.net/api/users/add',
       method: 'POST',
       withCredentials: true,
       data: body,

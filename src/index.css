@@ -37,7 +37,16 @@ code {
   justify-content: space-evenly;
   align-items: center;
 }
+.custom-start-users {
+  display: flex;
+  min-height: 90vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
 .custom-start svg {
+  width: 400px;
+}
+.custom-start-users svg {
   width: 400px;
 }
 .headline {
@@ -45,6 +54,9 @@ code {
 }
 @media (max-width: 1200px) {
   .custom-start svg {
+    width: 300px;
+  }
+  .custom-start-users svg {
     width: 300px;
   }
   .custom-form {
@@ -65,6 +77,12 @@ code {
   }
   .custom-start svg {
     height: 250px;
+  }
+  .custom-start-users svg {
+    height: 250px;
+  }
+  .custom-start-users {
+    flex-direction: column;
   }
   .custom-form {
     width: 60%;

@@ -21,27 +21,29 @@ const NewBook = () => {
   const [title, setTitle] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorLastName, setAuthorLastName] = useState('');
+  const [authors, setAuthors] = useState([{}]);
   const updateReleaseYear = (e) => {
     setReleaseYear(e.target.value);
   };
-  const updateAuthorName = (e) => {
-    setAuthorName(e.target.value);
+  const handleAuthorNameChange = (e, index) => {
+    authors[index].name = e.target.value;
+    setAuthors(authors);
   };
-  const updateAuthorLastName = (e) => {
-    setAuthorLastName(e.target.value);
+  const handleAuthorSurNameChange = (e, index) => {
+    authors[index].surname = e.target.value;
+    setAuthors(authors);
   };
   const updateTitle = (e) => {
     setTitle(e.target.value);
   };
   const createNew = async (e) => {
     e.preventDefault();
-    let authorsArray = [{ name: authorName, surname: authorLastName }];
-    console.log(releaseYear);
+    console.log(authors);
     let body = {
       id: 0,
       title: title,
       publicationDate: releaseYear + '-' + '01' + '-' + '01',
-      authors: authorsArray,
+      authors: authors,
     };
     console.log(body);
     await axios({
@@ -52,7 +54,7 @@ const NewBook = () => {
     })
       .then((res) => {
         console.log(res);
-        return <Redirect to='/panel' />;
+        history.push('/panel');
       })
       .catch((err) => {
         if (err.response.status == 401) {
@@ -61,29 +63,51 @@ const NewBook = () => {
         }
       });
   };
+  const appendAuthor = (e) => {
+    setAuthors([...authors, {}]);
+  };
+  const removeAuthor = (index) => {
+    authors.splice(index, 1);
+    setAuthors([...authors]);
+  };
   return (
-    <div className='custom-start'>
+    <div className='custom-start-users'>
       <div className='custom-form'>
         <Col>
           <div className='custom-form-header'>
             <h2>Dodaj Książkę</h2>
           </div>
           <Form onSubmit={createNew}>
+            {authors.map((author, index) => {
+              return (
+                <Form.Group key={index}>
+                  <Form.Label>Imię i Nazwisko {index + 1}. Autora</Form.Label>
+                  <Form.Control
+                    className={'my-2'}
+                    type='text'
+                    onChange={(e) => {
+                      handleAuthorNameChange(e, index);
+                    }}
+                    value={author.name}
+                    placeholder='Wprowadź imię autora'
+                  />
+                  <Form.Control
+                    className={'my-2'}
+                    value={author.surname}
+                    type='text'
+                    onChange={(e) => {
+                      handleAuthorSurNameChange(e, index);
+                    }}
+                    placeholder='Wprowadź nazwisko autora'
+                  />
+                  <Button onClick={() => removeAuthor(index)}>Usuń</Button>
+                </Form.Group>
+              );
+            })}
             <Form.Group>
-              <Form.Label>Imię Autora</Form.Label>
-              <Form.Control
-                value={authorName}
-                onChange={updateAuthorName}
-                placeholder='Wprowadź imię autora'
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Nazwisko Autora</Form.Label>
-              <Form.Control
-                value={authorLastName}
-                onChange={updateAuthorLastName}
-                placeholder='Wprowadź nazwisko autora'
-              />
+              <Button type='button' onClick={(e) => appendAuthor(e)}>
+                Dodaj
+              </Button>
             </Form.Group>
             <Form.Group>
               <Form.Label>Tytuł</Form.Label>

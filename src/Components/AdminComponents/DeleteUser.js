@@ -21,7 +21,7 @@ function DeleteUser({ match }) {
     e.preventDefault();
     await axios({
       url:
-        'https://elib-hybrid.azurewebsites.net/api/users/delete?' +
+        'https://elib-hybrid.azurewebsites.net/api/users/delete?id=' +
         match.params.id,
       method: 'DELETE',
       withCredentials: true,
@@ -54,7 +54,7 @@ function DeleteUser({ match }) {
                   <Form.Control
                     value={adminPassword}
                     onChange={updateAdminPassword}
-                    type='text'
+                    type='password'
                     placeholder='Podaj Hasło'
                   />
                 </Form.Group>

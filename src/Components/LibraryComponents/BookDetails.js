@@ -75,8 +75,23 @@ const BookDetails = ({ match }) => {
       .then((res) => {
         console.log(res);
         document.getElementById('message').innerText = 'Egzemplarz Dodany';
-        setTimeout(10000);
-        return <Redirect to='/books' />;
+        setTimeout(100);
+        getBookDetails();
+      })
+      .catch((err) => {
+        if (err.status == 401) {
+          history.push('/login');
+        }
+      });
+  };
+  const removeBook = async (id) => {
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/api/books/delete?id=' + id,
+      method: 'DELETE',
+      withCredentials: true,
+    })
+      .then((res) => {
+        history.push('/books');
       })
       .catch((err) => {
         if (err.status == 401) {
@@ -86,14 +101,18 @@ const BookDetails = ({ match }) => {
   };
   return (
     <div className='custom-start'>
-      <div className='book-details'>
+      <div className='book-details mx-2'>
         <h1>{book.title}</h1>
         {(book.authors || []).map((author) => (
           <h5 key={author.id}>
             {author.name} {author.surname}
           </h5>
         ))}
-        <h3>{book.publicationDate}</h3>
+        <h3>
+          {book.publicationDate !== undefined
+            ? book.publicationDate.substr(0, 4)
+            : ''}
+        </h3>
         <h5>Dostępne egzemplarze: {copies}</h5>
         {copies !== '' && copies > 0 ? (
           <Button
@@ -107,12 +126,20 @@ const BookDetails = ({ match }) => {
         )}
 
         {userRole === 'ROLE_ADMIN' && (
-          <Button
-            onClick={() => addCopy(match.params.id)}
-            className='d-block mb-2'
-          >
-            Dodaj Egzemplarz
-          </Button>
+          <div>
+            <Button
+              onClick={() => addCopy(match.params.id)}
+              className='d-block mb-2'
+            >
+              Dodaj Egzemplarz
+            </Button>
+            <Button
+              onClick={() => removeBook(match.params.id)}
+              className='d-block mb-2'
+            >
+              Usuń Książkę
+            </Button>
+          </div>
         )}
       </div>
       <div className='justify-content-center d-flex my-3'>
