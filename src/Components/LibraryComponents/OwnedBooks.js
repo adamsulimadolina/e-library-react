@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import OwnedBook from './OwnedBook';
 import Container from 'react-bootstrap/Container';
@@ -8,10 +8,16 @@ import { TextField } from '@material-ui/core/';
 import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
+import { UserContext } from '../UserComponents/UserContext';
 const OwnedBooks = () => {
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   const [myBooks, setMyBooks] = useState([]);
+  const history = useHistory();
   useEffect(() => {
     getOwnedBooks();
   }, []);
@@ -22,14 +28,12 @@ const OwnedBooks = () => {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res.data);
         setMyBooks(res.data);
       })
       .catch((err) => {
-        console.log(err.response.status);
-        if (err.response.status === 401) {
-          console.log('log');
-          return <Redirect to='/login' />;
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
         }
       });
   };
@@ -39,22 +43,17 @@ const OwnedBooks = () => {
     <Container className='custom-container '>
       <Row className='justify-content-center'>
         {myBooks.map((bk) => (
-          <Col
-            key={bk.bookCopy.book.id + bk.bookCopy.book.title}
-            lg={3}
-            sm={6}
-            xs={8}
-            md={4}
-          >
+          <Col lg={3} sm={6} xs={8} md={4} key={bk.id}>
             <OwnedBook
               title={bk.bookCopy.book.title}
-              id={bk.bookCopy.book.id}
+              id={bk.id}
               releaseDate={bk.bookCopy.book.publicationDate}
               authors={
                 bk.bookCopy.book.authors.length > 1
                   ? [bk.bookCopy.book.authors[0]]
                   : bk.bookCopy.book.authors
               }
+              getBooks={getOwnedBooks}
             ></OwnedBook>
           </Col>
         ))}

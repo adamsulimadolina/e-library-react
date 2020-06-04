@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { UserContext } from '../UserComponents/UserContext';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 const BookDetails = ({ match }) => {
+  const history = useHistory();
   const [book, setBook] = useState({});
-  const [copies, setCopies] = '';
+  const [copies, setCopies] = useState('');
   const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
     UserContext
   );
@@ -34,11 +36,17 @@ const BookDetails = ({ match }) => {
           const responseTwo = responses[1];
           console.log(responseOne.data);
           console.log(responseTwo.data);
+
           setBook(responseOne.data);
           setCopies(responseTwo.data);
         })
       )
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   const rentBook = async (id) => {
     await axios({
@@ -48,10 +56,14 @@ const BookDetails = ({ match }) => {
       withCredentials: true,
     })
       .then((res) => {
-        console.log(res);
-        return <Redirect to='/myCollection' />;
+        console.log(res.status.code);
+        history.push('/books');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.status == 401) {
+          history.push('/login');
+        }
+      });
   };
   const addCopy = async (id) => {
     await axios({
@@ -63,8 +75,14 @@ const BookDetails = ({ match }) => {
       .then((res) => {
         console.log(res);
         document.getElementById('message').innerText = 'Egzemplarz Dodany';
+        setTimeout(10000);
+        return <Redirect to='/books' />;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.status == 401) {
+          history.push('/login');
+        }
+      });
   };
   return (
     <div className='custom-start'>
@@ -97,7 +115,9 @@ const BookDetails = ({ match }) => {
           </Button>
         )}
       </div>
-      <h1 id='message'></h1>
+      <div className='justify-content-center d-flex my-3'>
+        <h1 id='message'></h1>
+      </div>
     </div>
   );
 };

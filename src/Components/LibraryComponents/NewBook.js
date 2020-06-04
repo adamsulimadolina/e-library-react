@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Images/adduser.svg';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { generateYears } from '../Helpers/Helper';
+import { UserContext } from '../UserComponents/UserContext';
 const NewBook = () => {
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
+  const history = useHistory();
   const [years, setYears] = useState([]);
   useEffect(() => {
     setYears(generateYears());
@@ -48,7 +54,12 @@ const NewBook = () => {
         console.log(res);
         return <Redirect to='/panel' />;
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   return (
     <div className='custom-start'>

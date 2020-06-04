@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import Book from './Book';
 import Container from 'react-bootstrap/Container';
@@ -6,14 +6,20 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { TextField } from '@material-ui/core/';
 import Select from '@material-ui/core/Select';
+import { useHistory } from 'react-router-dom';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { UserContext } from '../UserComponents/UserContext';
 import MenuItem from '@material-ui/core/MenuItem';
 import Form from 'react-bootstrap/Form';
 import { formatAuthors } from '../Helpers/Helper';
 import Button from 'react-bootstrap/Button';
 import { generateYears } from '../Helpers/Helper';
 const Books = () => {
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
+  const history = useHistory();
   const [books, setBooks] = useState([{}]);
   const [bookFilter, setBookFilter] = useState('');
   const [displayedYears, setDisplayedYears] = useState([]);
@@ -46,9 +52,16 @@ const Books = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then((response) => {
-      setBooks(formatAuthors(response.data));
-    });
+    })
+      .then((response) => {
+        setBooks(formatAuthors(response.data));
+      })
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   const filterBooks = async () => {
     let releaseDate = yearFilter === 'Domyślnie' ? '' : yearFilter;
@@ -56,9 +69,16 @@ const Books = () => {
       url: `https://elib-hybrid.azurewebsites.net/api/books/filter?title=${bookFilter}&author=${authorFilter}&year=${releaseDate}`,
       method: 'GET',
       withCredentials: true,
-    }).then((res) => {
-      setBooks(formatAuthors(res.data));
-    });
+    })
+      .then((res) => {
+        setBooks(formatAuthors(res.data));
+      })
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   return (
     <Container className='custom-container '>

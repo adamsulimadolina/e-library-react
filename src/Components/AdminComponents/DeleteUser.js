@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Images/delete.svg';
+import { UserContext } from '../UserComponents/UserContext';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
+import { useHistory } from 'react-router-dom';
 function DeleteUser({ match }) {
+  const history = useHistory();
   const [deleteState, setDeleteState] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   const updateAdminPassword = (e) => {
     setAdminPassword(e.target.value);
   };
@@ -24,7 +30,12 @@ function DeleteUser({ match }) {
         console.log(res);
         setDeleteState(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   return (
     <div>

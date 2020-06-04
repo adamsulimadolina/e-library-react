@@ -18,6 +18,7 @@ import BookDetails from './LibraryComponents/BookDetails';
 import OwnedBooks from './LibraryComponents/OwnedBooks';
 import { ThemeProvider } from '@material-ui/styles';
 import defaultTheme from './theme';
+import calls from './Helpers/calls';
 import NotFound from './NotFound';
 function App() {
   return (

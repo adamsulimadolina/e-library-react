@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Images/adduser.svg';
@@ -6,10 +6,16 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
+import { useHistory } from 'react-router-dom';
+import { UserContext } from '../UserComponents/UserContext';
 function NewUser() {
+  const history = useHistory();
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   const [createdUser, setCreatedUser] = useState(false);
   const [password, setPassword] = useState('');
-  const [userRole, setUserRole] = useState(true);
+  const [newUserRole, setNewUserRole] = useState(true);
   const [adminRole, setAdminRole] = useState(false);
   const [userName, setUserName] = useState('');
   const updatePassword = (e) => {
@@ -19,7 +25,7 @@ function NewUser() {
     setUserName(e.target.value);
   };
   const updateUserRole = (e) => {
-    setUserRole(e.target.checked);
+    setNewUserRole(e.target.checked);
   };
   const updateAdminRole = (e) => {
     setAdminRole(e.target.checked);
@@ -28,7 +34,7 @@ function NewUser() {
   const newUser = async (e) => {
     e.preventDefault();
     let roles = [];
-    if (userRole) roles.push('user');
+    if (newUserRole) roles.push('user');
     if (adminRole) roles.push('admin');
     let body = {
       username: userName,
@@ -46,7 +52,12 @@ function NewUser() {
         console.log(res);
         setCreatedUser(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status == 401) {
+          logOutUser();
+          history.push('/login');
+        }
+      });
   };
   const generatePassword = async () => {
     let response = await axios.get(
@@ -89,7 +100,7 @@ function NewUser() {
                   type='checkbox'
                   label='user'
                   onChange={updateUserRole}
-                  checked={userRole}
+                  checked={newUserRole}
                 />
                 <Form.Check
                   inline
