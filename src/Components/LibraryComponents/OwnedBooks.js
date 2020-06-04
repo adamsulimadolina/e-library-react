@@ -9,42 +9,52 @@ import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
+import { Redirect } from 'react-router-dom';
 const OwnedBooks = () => {
   const [myBooks, setMyBooks] = useState([]);
   useEffect(() => {
-    setMyBooks([
-      {
-        title: 'tytul1',
-        authors: 'Mariusz Pudzianowski',
-        Id: '123',
-        releaseDate: '12.05',
-      },
-      {
-        title: 'tytul2',
-        authors: 'Mariusz Pudzianowski',
-        Id: '13123',
-        releaseDate: '12.02',
-      },
-      {
-        title: 'tytul13',
-        authors: 'Mariusz JKM',
-        Id: '133999',
-        releaseDate: '12.69',
-      },
-    ]);
-    //axios.get();
+    getOwnedBooks();
   }, []);
+  const getOwnedBooks = async (e) => {
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/api/borrow/all',
+      method: 'GET',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setMyBooks(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.status);
+        if (err.response.status === 401) {
+          console.log('log');
+          return <Redirect to='/login' />;
+        }
+      });
+  };
+
   const returnBook = async (id) => {};
   return (
     <Container className='custom-container '>
       <Row className='justify-content-center'>
         {myBooks.map((bk) => (
-          <Col key={bk.Id + bk.title} lg={3} sm={6} xs={8} md={4}>
+          <Col
+            key={bk.bookCopy.book.id + bk.bookCopy.book.title}
+            lg={3}
+            sm={6}
+            xs={8}
+            md={4}
+          >
             <OwnedBook
-              title={bk.title}
-              authors={bk.authors}
-              id={bk.Id}
-              releaseDate={bk.releaseDate}
+              title={bk.bookCopy.book.title}
+              id={bk.bookCopy.book.id}
+              releaseDate={bk.bookCopy.book.publicationDate}
+              authors={
+                bk.bookCopy.book.authors.length > 1
+                  ? [bk.bookCopy.book.authors[0]]
+                  : bk.bookCopy.book.authors
+              }
             ></OwnedBook>
           </Col>
         ))}

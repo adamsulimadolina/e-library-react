@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from './UserContext';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,10 +11,12 @@ const Logout = () => {
   );
   const logOut = () => {
     logOutUser();
+    localStorage.setItem('loggedIn', false);
     return <Redirect to='/' />;
   };
   const responseGoogle = (response) => {
     logOutUser();
+    localStorage.setItem('loggedIn', false);
     return <Redirect to='/' />;
   };
   return googleUser ? (

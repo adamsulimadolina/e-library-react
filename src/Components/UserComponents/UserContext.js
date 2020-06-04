@@ -1,11 +1,19 @@
-import React, { useState, useEffect, createContext } from 'react';
-import axios from 'axios';
+import React, { useState, createContext, useEffect } from 'react';
 export const UserContext = createContext();
 
 export const UserProvider = (props) => {
+  useEffect(() => {
+    let token = localStorage.getItem('loggedIn');
+    if (token === 'google') {
+      logInUser(true, localStorage.getItem('role'));
+    } else if (token === 'standard') {
+      logInUser(false, localStorage.getItem('role'));
+    } else {
+      logOutUser();
+    }
+  }, []);
   const [loggedIn, setLoggedIn] = useState(false);
   const [googleUser, setGoogleUser] = useState(false);
-  const [rentedBooks, setRentedBooks] = useState([]);
   const [userRole, setUserRole] = useState('');
   const logInUser = async (googleUser, userRole) => {
     setLoggedIn(true);
@@ -16,6 +24,8 @@ export const UserProvider = (props) => {
     setLoggedIn(false);
     setGoogleUser(false);
     setUserRole('');
+    localStorage.setItem('loggedIn', '');
+    localStorage.setItem('role', '');
   };
   return (
     <UserContext.Provider

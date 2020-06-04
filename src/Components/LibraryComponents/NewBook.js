@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
 import { ReactComponent as Logo } from '../Images/adduser.svg';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import TextField from '@material-ui/core/TextField';
-
+import { generateYears } from '../Helpers/Helper';
 const NewBook = () => {
   const [years, setYears] = useState([]);
   useEffect(() => {
-    generateYears();
+    setYears(generateYears());
   }, []);
-  const [releaseYear, setReleaseYear] = useState(new Date());
+  const [releaseYear, setReleaseYear] = useState('');
   const [title, setTitle] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorLastName, setAuthorLastName] = useState('');
@@ -32,31 +30,25 @@ const NewBook = () => {
   const createNew = async (e) => {
     e.preventDefault();
     let authorsArray = [{ name: authorName, surname: authorLastName }];
+    console.log(releaseYear);
+    let body = {
+      id: 0,
+      title: title,
+      publicationDate: releaseYear + '-' + '01' + '-' + '01',
+      authors: authorsArray,
+    };
+    console.log(body);
     await axios({
       url: 'https://elib-hybrid.azurewebsites.net/api/books/create',
       method: 'POST',
       withCredentials: true,
-      data: {
-        title: title,
-        publicationDate: new Date(releaseYear),
-        authors: authorsArray,
-      },
+      data: body,
     })
       .then((res) => {
         console.log(res);
         return <Redirect to='/panel' />;
       })
       .catch((err) => console.log(err));
-  };
-  const generateYears = () => {
-    let startYear;
-    let currentYear = new Date().getFullYear(),
-      years = [];
-    startYear = startYear || 1980;
-    while (startYear <= currentYear) {
-      years.push(startYear++);
-    }
-    setYears(years);
   };
   return (
     <div className='custom-start'>
@@ -91,13 +83,11 @@ const NewBook = () => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Group>
-                <Form.Control as='select' custom onChange={updateReleaseYear}>
-                  {years.map((year) => (
-                    <option value={year}>{year}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
+              <Form.Control as='select' custom onChange={updateReleaseYear}>
+                {years.map((year) => (
+                  <option value={year}>{year}</option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Button type='submit'>Dodaj</Button>
           </Form>

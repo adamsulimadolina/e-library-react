@@ -41,8 +41,9 @@ const Login = () => {
       },
     })
       .then((res) => {
-        console.log(res.data.roles[0]);
         logInUser(false, res.data.roles[0]);
+        localStorage.setItem('loggedIn', 'standard');
+        localStorage.setItem('role', res.data.roles[0]);
       })
       .catch((err) => console.log(err));
   };
@@ -58,6 +59,8 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         logInUser(true, 'ROLE_USER');
+        localStorage.setItem('loggedIn', 'google');
+        localStorage.setItem('role', 'ROLE_USER');
       })
       .catch((err) => console.log(err));
   };

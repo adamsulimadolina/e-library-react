@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function User({ id, userName }) {
-  const [user, setUser] = useState();
   return (
     <Card className='card'>
       <Card.Body className='text-center'>

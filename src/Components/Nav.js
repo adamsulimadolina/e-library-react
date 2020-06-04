@@ -16,9 +16,7 @@ const Navigation = () => {
   const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
     UserContext
   );
-  useEffect(() => {
-    console.log(userRole);
-  }, []);
+  useEffect(() => {}, []);
   return (
     <Navbar collapseOnSelect expand='md' bg='dark' variant='dark' sticky='top'>
       <Navbar.Toggle aria-controls='responsive-navbar-nav'>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Navigation from './Nav';
@@ -7,8 +7,6 @@ import Login from './UserComponents/Login';
 import Logout from './UserComponents/Logout';
 import NewBook from './LibraryComponents/NewBook';
 import Home from './LibraryComponents/Home';
-import Book from './LibraryComponents/Book';
-import User from './AdminComponents/User';
 import AdminPanel from './AdminComponents/AdminPanel';
 import NewUser from './AdminComponents/NewUser';
 import DeleteUser from './AdminComponents/DeleteUser';

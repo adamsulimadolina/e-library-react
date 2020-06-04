@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { ReactComponent as Logo } from '../Images/adduser.svg';
@@ -28,18 +28,19 @@ function NewUser() {
   const newUser = async (e) => {
     e.preventDefault();
     let roles = [];
-    if (userRole) roles.push('ROLE_USER');
-    if (adminRole) roles.push('ROLE_ADMIN');
-    console.log(roles);
+    if (userRole) roles.push('user');
+    if (adminRole) roles.push('admin');
+    let body = {
+      username: userName,
+      password: password,
+      role: roles,
+    };
+    console.log(body);
     await axios({
       url: 'https://elib-hybrid.azurewebsites.net/authentication/signup/',
       method: 'POST',
       withCredentials: true,
-      data: {
-        username: userName,
-        password: password,
-        roles: roles,
-      },
+      data: body,
     })
       .then((res) => {
         console.log(res);

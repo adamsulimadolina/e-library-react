@@ -5,17 +5,38 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { TextField } from '@material-ui/core/';
-import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
-import DateFnsUtils from '@date-io/date-fns';
-
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import Form from 'react-bootstrap/Form';
+import { formatAuthors } from '../Helpers/Helper';
+import Button from 'react-bootstrap/Button';
+import { generateYears } from '../Helpers/Helper';
 const Books = () => {
   const [books, setBooks] = useState([{}]);
+  const [bookFilter, setBookFilter] = useState('');
+  const [displayedYears, setDisplayedYears] = useState([]);
+  const [authorFilter, setAuthorFilter] = useState('');
+  const [yearFilter, setYearFilter] = useState('');
   const [initialBooks, setInitBooks] = useState([{}]);
   const [selectedDate, handleDateChange] = useState(new Date());
   useEffect(() => {
     getInitBooks();
+    setDisplayedYears(generateYears());
   }, []);
-
+  const updateYearFilter = (e) => {
+    setYearFilter(e.target.value);
+  };
+  const updateReleaseYear = (e) => {
+    setYearFilter(e.target.value);
+  };
+  const updateBookFilter = (e) => {
+    setBookFilter(e.target.value);
+  };
+  const updateAuthorFilter = (e) => {
+    setAuthorFilter(e.target.value);
+  };
   const getInitBooks = async () => {
     await axios({
       url: 'https://elib-hybrid.azurewebsites.net/api/books/all',
@@ -26,82 +47,54 @@ const Books = () => {
         'Content-Type': 'application/json',
       },
     }).then((response) => {
-      console.log(document.cookie);
-      console.log(response);
-      //foreach response.data.book setdisplayedauthors
-      setInitBooks(response.data);
-      setBooks(response.data);
+      setBooks(formatAuthors(response.data));
     });
   };
   const filterBooks = async () => {
-    console.log(initialBooks);
-    let author_filter = document.getElementById('filter_author').value;
-    let book_filter = document.getElementById('filter_book').value;
-    let tmp_books = [];
-    for (let i = 0; i < initialBooks.length; i++) {
-      if (
-        initialBooks[i].title.toLowerCase().includes(book_filter.toLowerCase())
-      ) {
-        for (let j = 0; j < initialBooks[i].authors.length; j++) {
-          if (
-            initialBooks[i].authors[j]
-              .toLowerCase()
-              .includes(author_filter.toLowerCase())
-          ) {
-            tmp_books.push(initialBooks[i]);
-            break;
-          }
-        }
-      }
-    }
-    setBooks(tmp_books);
-  };
-
-  const formatAuthors = (data) => {
-    data.forEach((element) => {
-      console.log(element);
-      if (
-        element.authors.length > 1 &&
-        element.authors[1].length + element.authors[0].length < 30
-      ) {
-        element.displayedAuthors =
-          element.authors[0] + ', ' + element.authors[1] + '...';
-      } else {
-        element.displayedAuthors = element.authors[0] + '...';
-      }
+    let releaseDate = yearFilter === 'Domyślnie' ? '' : yearFilter;
+    await axios({
+      url: `https://elib-hybrid.azurewebsites.net/api/books/filter?title=${bookFilter}&author=${authorFilter}&year=${releaseDate}`,
+      method: 'GET',
+      withCredentials: true,
+    }).then((res) => {
+      setBooks(formatAuthors(res.data));
     });
   };
-
   return (
     <Container className='custom-container '>
-      <Row className='justify-content-center'>
+      <div className='justify-content-around d-flex mb-3'>
         <TextField
-          style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
           id='filter_book'
           label='Tytuł'
           variant='outlined'
-          onChange={filterBooks}
+          value={bookFilter}
+          onChange={updateBookFilter}
         />
         <TextField
-          style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
           id='filter_author'
           label='Autor'
           variant='outlined'
-          onChange={filterBooks}
+          onChange={updateAuthorFilter}
+          value={authorFilter}
         />
-        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DatePicker
-            style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
-            views={['year']}
-            value={selectedDate}
-            onChange={handleDateChange}
+        <FormControl variant='outlined' style={{ width: 170 + 'px' }}>
+          <InputLabel htmlFor='data'>Rok Wydania</InputLabel>
+          <Select
+            id='data'
             variant='outlined'
-            label='Rok wydania'
-            maxDate={new Date()}
-            minDate={new Date(1800, 1, 1)}
-          />
-        </MuiPickersUtilsProvider> */}
-      </Row>
+            type
+            label='Rok Wydania'
+            onChange={updateReleaseYear}
+          >
+            <MenuItem value='Domyślnie'>Domyślnie</MenuItem>
+            {displayedYears.map((year) => (
+              <MenuItem value={year}>{year}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button onClick={filterBooks}>Szukaj</Button>
+      </div>
+
       <br></br>
       <br></br>
       <Row className='justify-content-center'>
