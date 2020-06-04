@@ -7,16 +7,22 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import User from './User';
 function AdminPanel() {
-  const [users, setUsers] = useState([
-    { id: '12412512', userName: 'daniel' },
-    { id: '12412513242', userName: 'daniel' },
-    { id: '68457457', userName: 'adam' },
-    { id: '2344vsfv235b', userName: 'michał' },
-    { id: '23423zaaw2', userName: 'Sz****' },
-  ]);
+  const [users, setUsers] = useState([]);
   useEffect(() => {
-    //axios.get();
+    getUsers();
   }, []);
+  const getUsers = async () => {
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/api/users/all',
+      method: 'GET',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res.data);
+        setUsers(res.data);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <Container className='custom-container'>
       <div className='justify-content-around d-flex my-5'>
@@ -29,7 +35,7 @@ function AdminPanel() {
       </div>
       <div className='custom-grid'>
         {users.map((user) => (
-          <User id={user.id} userName={user.userName} key={user.id} />
+          <User id={user.id} userName={user.username} key={user.id} />
         ))}
       </div>
     </Container>

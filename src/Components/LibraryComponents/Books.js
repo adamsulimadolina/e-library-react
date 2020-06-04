@@ -18,78 +18,78 @@ const Books = () => {
 
   const getInitBooks = async () => {
     await axios({
-      url: "http://localhost:8080/api/books/all",
+      url: 'https://elib-hybrid.azurewebsites.net/api/books/all',
       method: 'GET',
       withCredentials: true,
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json',
-      }
+      },
     }).then((response) => {
-      console.log(document.cookie)
+      console.log(document.cookie);
       console.log(response);
-      setInitBooks(response.data)
-      setBooks(response.data)
-
-    })};
-
-const filterBooks = async () => {
-  console.log(initialBooks)
-  let author_filter = document.getElementById('filter_author').value;
-  let book_filter = document.getElementById('filter_book').value;
-  let tmp_books = [];
-  for (let i = 0; i < initialBooks.length; i++) {
-    if (
-      initialBooks[i].title.toLowerCase().includes(book_filter.toLowerCase())
-    ) {
-      for (let j = 0; j < initialBooks[i].authors.length; j++) {
-        if (
-          initialBooks[i].authors[j]
-            .toLowerCase()
-            .includes(author_filter.toLowerCase())
-        ) {
-          tmp_books.push(initialBooks[i]);
-          break;
+      //foreach response.data.book setdisplayedauthors
+      setInitBooks(response.data);
+      setBooks(response.data);
+    });
+  };
+  const filterBooks = async () => {
+    console.log(initialBooks);
+    let author_filter = document.getElementById('filter_author').value;
+    let book_filter = document.getElementById('filter_book').value;
+    let tmp_books = [];
+    for (let i = 0; i < initialBooks.length; i++) {
+      if (
+        initialBooks[i].title.toLowerCase().includes(book_filter.toLowerCase())
+      ) {
+        for (let j = 0; j < initialBooks[i].authors.length; j++) {
+          if (
+            initialBooks[i].authors[j]
+              .toLowerCase()
+              .includes(author_filter.toLowerCase())
+          ) {
+            tmp_books.push(initialBooks[i]);
+            break;
+          }
         }
       }
     }
-  }
-  setBooks(tmp_books);
-};
+    setBooks(tmp_books);
+  };
 
-const formatAuthors = (data) => {
-  data.forEach((element) => {
-    console.log(element);
-    if (
-      element.authors.length > 1 &&
-      element.authors[1].length + element.authors[0].length < 30
-    ) {
-      element.displayedAuthors =
-        element.authors[0] + ', ' + element.authors[1] + '...';
-    } else {
-      element.displayedAuthors = element.authors[0] + '...';
-    }
-  });
-};
+  const formatAuthors = (data) => {
+    data.forEach((element) => {
+      console.log(element);
+      if (
+        element.authors.length > 1 &&
+        element.authors[1].length + element.authors[0].length < 30
+      ) {
+        element.displayedAuthors =
+          element.authors[0] + ', ' + element.authors[1] + '...';
+      } else {
+        element.displayedAuthors = element.authors[0] + '...';
+      }
+    });
+  };
 
-return (
-  <Container className='custom-container '>
-    <Row className='justify-content-center'>
-      <TextField
-        style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
-        id='filter_book'
-        label='Tytuł'
-        variant='outlined'
-        onChange={filterBooks}
-      />
-      <TextField
-        style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
-        id='filter_author'
-        label='Autor'
-        variant='outlined'
-        onChange={filterBooks}
-      />
-      {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
+  return (
+    <Container className='custom-container '>
+      <Row className='justify-content-center'>
+        <TextField
+          style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
+          id='filter_book'
+          label='Tytuł'
+          variant='outlined'
+          onChange={filterBooks}
+        />
+        <TextField
+          style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
+          id='filter_author'
+          label='Autor'
+          variant='outlined'
+          onChange={filterBooks}
+        />
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <DatePicker
             style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
             views={['year']}
@@ -101,21 +101,21 @@ return (
             minDate={new Date(1800, 1, 1)}
           />
         </MuiPickersUtilsProvider> */}
-    </Row>
-    <br></br>
-    <br></br>
-    <Row className='justify-content-center'>
-      {books.map((bk) => (
-        <Col key={bk.Id + bk.title} lg={3} sm={6} xs={8} md={4}>
-          <Book
-            title={bk.title}
-            displayedAuthors={bk.displayedAuthors}
-            id={bk.Id}
-          ></Book>
-        </Col>
-      ))}
-    </Row>
-  </Container>
-);
+      </Row>
+      <br></br>
+      <br></br>
+      <Row className='justify-content-center'>
+        {books.map((bk) => (
+          <Col key={bk.Id + bk.title} lg={3} sm={6} xs={8} md={4}>
+            <Book
+              title={bk.title}
+              displayedAuthors={bk.displayedAuthors}
+              id={bk.id}
+            ></Book>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
 };
 export default Books;

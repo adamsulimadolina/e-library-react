@@ -11,9 +11,20 @@ function DeleteUser({ match }) {
   const updateAdminPassword = (e) => {
     setAdminPassword(e.target.value);
   };
-  const deleteUser = async () => {
-    // await axios.post();
-    setDeleteState(true);
+  const deleteUser = async (e) => {
+    e.preventDefault();
+    await axios({
+      url:
+        'https://elib-hybrid.azurewebsites.net/api/users/delete?' +
+        match.params.id,
+      method: 'DELETE',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res);
+        setDeleteState(true);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div>

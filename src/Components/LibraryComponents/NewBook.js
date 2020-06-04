@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { DatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers';
@@ -6,15 +6,19 @@ import { ReactComponent as Logo } from '../Images/adduser.svg';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import DateFnsUtils from '@date-io/date-fns';
-import FormControl from 'react-bootstrap/FormControl';
+import TextField from '@material-ui/core/TextField';
+
 const NewBook = () => {
+  const [years, setYears] = useState([]);
+  useEffect(() => {
+    generateYears();
+  }, []);
   const [releaseYear, setReleaseYear] = useState(new Date());
   const [title, setTitle] = useState('');
   const [authorName, setAuthorName] = useState('');
   const [authorLastName, setAuthorLastName] = useState('');
   const updateReleaseYear = (e) => {
-    console.log(e.target.value);
+    setReleaseYear(e.target.value);
   };
   const updateAuthorName = (e) => {
     setAuthorName(e.target.value);
@@ -25,8 +29,34 @@ const NewBook = () => {
   const updateTitle = (e) => {
     setTitle(e.target.value);
   };
-  const createNew = async () => {
-    return <Redirect to='/panel' />;
+  const createNew = async (e) => {
+    e.preventDefault();
+    let authorsArray = [{ name: authorName, surname: authorLastName }];
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/api/books/create',
+      method: 'POST',
+      withCredentials: true,
+      data: {
+        title: title,
+        publicationDate: new Date(releaseYear),
+        authors: authorsArray,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        return <Redirect to='/panel' />;
+      })
+      .catch((err) => console.log(err));
+  };
+  const generateYears = () => {
+    let startYear;
+    let currentYear = new Date().getFullYear(),
+      years = [];
+    startYear = startYear || 1980;
+    while (startYear <= currentYear) {
+      years.push(startYear++);
+    }
+    setYears(years);
   };
   return (
     <div className='custom-start'>
@@ -38,7 +68,7 @@ const NewBook = () => {
           <Form onSubmit={createNew}>
             <Form.Group>
               <Form.Label>Imię Autora</Form.Label>
-              <FormControl
+              <Form.Control
                 value={authorName}
                 onChange={updateAuthorName}
                 placeholder='Wprowadź imię autora'
@@ -46,7 +76,7 @@ const NewBook = () => {
             </Form.Group>
             <Form.Group>
               <Form.Label>Nazwisko Autora</Form.Label>
-              <FormControl
+              <Form.Control
                 value={authorLastName}
                 onChange={updateAuthorLastName}
                 placeholder='Wprowadź nazwisko autora'
@@ -54,27 +84,20 @@ const NewBook = () => {
             </Form.Group>
             <Form.Group>
               <Form.Label>Tytuł</Form.Label>
-              <FormControl
+              <Form.Control
                 value={title}
                 onChange={updateTitle}
                 placeholder='Wprowadź tytuł'
               />
             </Form.Group>
             <Form.Group>
-              {
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <DatePicker
-                    style={{ marginRight: 10 + 'px', marginTop: 10 + 'px' }}
-                    views={['year']}
-                    value={releaseYear}
-                    onChange={updateReleaseYear}
-                    variant='outlined'
-                    label='Rok wydania'
-                    maxDate={new Date()}
-                    minDate={new Date(1800, 1, 1)}
-                  />
-                </MuiPickersUtilsProvider>
-              }
+              <Form.Group>
+                <Form.Control as='select' custom onChange={updateReleaseYear}>
+                  {years.map((year) => (
+                    <option value={year}>{year}</option>
+                  ))}
+                </Form.Control>
+              </Form.Group>
             </Form.Group>
             <Button type='submit'>Dodaj</Button>
           </Form>

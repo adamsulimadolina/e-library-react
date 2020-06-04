@@ -5,15 +5,9 @@ import { Redirect } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 const BookDetails = ({ match }) => {
   const [book, setBook] = useState({});
-  const [
-    loggedIn,
-    setLoggedIn,
-    googleUser,
-    setGoogleUser,
-    authUser,
-    userRole,
-    setUserRole,
-  ] = useContext(UserContext);
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   useEffect(() => {
     console.log(match.params.id);
     console.log(userRole);
@@ -23,6 +17,7 @@ const BookDetails = ({ match }) => {
   };
   const rentBook = (id) => {
     console.log(id);
+
     return <Redirect to='/myCollection' />;
   };
   const addCopy = (id) => {
@@ -40,7 +35,7 @@ const BookDetails = ({ match }) => {
         >
           Wypożycz
         </Button>
-        {userRole === 'Admin' && (
+        {userRole === 'ROLE_ADMIN' && (
           <Button
             onClick={() => addCopy(match.params.id)}
             className='d-block mb-2'

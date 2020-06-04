@@ -6,21 +6,15 @@ import Nav from 'react-bootstrap/Nav';
 import { Redirect } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 const Logout = () => {
-  const [
-    loggedIn,
-    setLoggedIn,
-    googleUser,
-    setGoogleUser,
-    setUserRole,
-  ] = useContext(UserContext);
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   const logOut = () => {
-    setLoggedIn(false);
+    logOutUser();
     return <Redirect to='/' />;
   };
   const responseGoogle = (response) => {
-    console.log(response);
-    setLoggedIn(false);
-    setGoogleUser(false);
+    logOutUser();
     return <Redirect to='/' />;
   };
   return googleUser ? (

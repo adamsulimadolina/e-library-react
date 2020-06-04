@@ -20,16 +20,32 @@ function NewUser() {
   };
   const updateUserRole = (e) => {
     setUserRole(e.target.checked);
-    console.log(e.target.checked);
   };
   const updateAdminRole = (e) => {
     setAdminRole(e.target.checked);
-    console.log(e.target.checked);
   };
 
-  const newUser = async () => {
-    //await axios.post();
-    setCreatedUser(true);
+  const newUser = async (e) => {
+    e.preventDefault();
+    let roles = [];
+    if (userRole) roles.push('ROLE_USER');
+    if (adminRole) roles.push('ROLE_ADMIN');
+    console.log(roles);
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/authentication/signup/',
+      method: 'POST',
+      withCredentials: true,
+      data: {
+        username: userName,
+        password: password,
+        roles: roles,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        setCreatedUser(true);
+      })
+      .catch((err) => console.log(err));
   };
   const generatePassword = async () => {
     let response = await axios.get(

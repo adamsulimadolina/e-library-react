@@ -10,15 +10,9 @@ import { ReactComponent as Logo } from '../Images/login.svg';
 import FormControl from 'react-bootstrap/FormControl';
 import { CommunicationStayCurrentLandscape } from 'material-ui/svg-icons';
 const Login = () => {
-  const [
-    loggedIn,
-    setLoggedIn,
-    googleUser,
-    setGoogleUser,
-    authUser,
-    userRole,
-    setUserRole,
-  ] = useContext(UserContext);
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [userName, setUserName] = useState('');
@@ -37,30 +31,37 @@ const Login = () => {
   };
   const authenticate = async (e) => {
     e.preventDefault();
-    // await axios({
-    //   //url: "https://elib-hybrid.azurewebsites.net/authentication/login/",
-    //   url: "http://localhost:8080/authentication/login/",
-    //   method: "POST",
-    //   withCredentials: true,
-    //   data: {
-    //     username: userName,
-    //     password: password
-    //   },
-    // }).then(res => {
-    //   console.log(document.cookie)
-    //   console.log(res);
-    //   setLoggedIn(true);
-    // })
-    //   .catch((err) => console.log(err));
-    setLoggedIn(true);
-    setUserRole('Admin');
+    await axios({
+      url: 'https://elib-hybrid.azurewebsites.net/authentication/login/',
+      method: 'POST',
+      withCredentials: true,
+      data: {
+        username: userName,
+        password: password,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.roles[0]);
+        logInUser(false, res.data.roles[0]);
+      })
+      .catch((err) => console.log(err));
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    setLoggedIn(true);
-    setGoogleUser(true);
+  const responseGoogle = async (response) => {
+    await axios({
+      url:
+        'https://elib-hybrid.azurewebsites.net/authentication/login/google?token=' +
+        response.tokenId,
+      method: 'POST',
+      withCredentials: true,
+    })
+      .then((res) => {
+        console.log(res);
+        logInUser(true, 'ROLE_USER');
+      })
+      .catch((err) => console.log(err));
   };
+
   if (!loggedIn)
     return (
       <div className='custom-start'>

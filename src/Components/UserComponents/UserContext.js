@@ -7,26 +7,19 @@ export const UserProvider = (props) => {
   const [googleUser, setGoogleUser] = useState(false);
   const [rentedBooks, setRentedBooks] = useState([]);
   const [userRole, setUserRole] = useState('');
-  const authUser = async () => {
-    let token = localStorage.getItem('token');
-    /*await axios.post().catch((error) => {
-      if (error.response.status == 401) {
-        localStorage.removeItem('token');
-        setLoggedIn(false);
-      }
-    });*/
+  const logInUser = async (googleUser, userRole) => {
+    setLoggedIn(true);
+    setGoogleUser(googleUser);
+    setUserRole(userRole);
+  };
+  const logOutUser = async () => {
+    setLoggedIn(false);
+    setGoogleUser(false);
+    setUserRole('');
   };
   return (
     <UserContext.Provider
-      value={[
-        loggedIn,
-        setLoggedIn,
-        googleUser,
-        setGoogleUser,
-        authUser,
-        userRole,
-        setUserRole,
-      ]}
+      value={[loggedIn, googleUser, userRole, logInUser, logOutUser]}
     >
       {props.children}
     </UserContext.Provider>

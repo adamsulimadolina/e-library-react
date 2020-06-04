@@ -7,7 +7,7 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 const Book = ({ title, displayedAuthors, id }) => {
   const [book, setBook] = useState();
   useEffect(() => {
-    // await axios.get();
+    console.log(id);
   }, []);
 
   const returnBook = async (id) => {
@@ -20,7 +20,6 @@ const Book = ({ title, displayedAuthors, id }) => {
         <Card.Title>{title}</Card.Title>
         <Card.Subtitle className='mb-1'>{displayedAuthors}</Card.Subtitle>
         <Button as={Link} to={`/books/details/${id}`}>
-          {' '}
           Zobacz
         </Button>
       </Card.Body>

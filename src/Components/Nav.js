@@ -13,15 +13,9 @@ import { UserContext } from './UserComponents/UserContext';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Logout from './UserComponents/Logout';
 const Navigation = () => {
-  const [
-    loggedIn,
-    setLoggedIn,
-    googleUser,
-    setGoogleUser,
-    authUser,
-    userRole,
-    setUserRole,
-  ] = useContext(UserContext);
+  const [loggedIn, googleUser, userRole, logInUser, logOutUser] = useContext(
+    UserContext
+  );
   useEffect(() => {
     console.log(userRole);
   }, []);
@@ -59,7 +53,7 @@ const Navigation = () => {
               </Nav.Link>
             </Nav.Item>
           )}
-          {userRole === 'Admin' && loggedIn && (
+          {userRole === 'ROLE_ADMIN' && loggedIn && (
             <Nav.Item>
               <Nav.Link as={Link} to='/panel'>
                 Admin Panel <FontAwesomeIcon icon={faUserShield} />
